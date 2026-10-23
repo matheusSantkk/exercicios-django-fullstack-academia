@@ -24,15 +24,24 @@ class Turma(models.Model):
         ('SEXTA', 'Sexta-feira'),
         ('SABADO', 'Sábado'),
     ]
-
     modalidade = models.ForeignKey(Modalidade, on_delete=models.PROTECT)
     dia_semana = models.CharField(max_length=10, choices=DIAS_SEMANA)
     horario = models.TimeField()
     instrutor = models.CharField(max_length=100)
     vagas = models.PositiveIntegerField(default=10)
-
     class Meta:
         ordering = ['dia_semana', 'horario']
 
     def __str__(self):
         return f"{self.modalidade.nome} {self.get_dia_semana_display()} {self.horario.strftime('%H:%M')}"
+    
+class Aluno(models.Model):
+    nome = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    telefone = models.CharField(max_length=20)
+    data_nascimento = models.DateField()
+    turmas = models.ManyToManyField(Turma, related_name='alunos', blank=True)
+    data_cadastro = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.nome

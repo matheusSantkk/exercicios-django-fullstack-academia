@@ -5,10 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Academia Corpo em Movimento</title>
-    <link rel="stylesheet" href="{% static 'academia/styles/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'academia/styles/home.css' %}?v=2" />
   </head>
   <body>
-
     <header class="navbar">
       <div class="container">
         <h1>🏋️ Academia Corpo em Movimento</h1>
@@ -17,7 +16,6 @@
     </header>
 
     <main class="container">
-
       <section class="section">
         <h2>Nossas Modalidades</h2>
 
@@ -32,7 +30,6 @@
           {% endfor %}
         </div>
       </section>
-
 
       <section class="section">
         <h2>Grade de Horários & Turmas</h2>
@@ -66,6 +63,15 @@
               {% endfor %}
             </tbody>
           </table>
+        </div>
+      </section>
+      <section class="section">
+        <h2>Faça sua Matrícula</h2>
+        <div class="card form-card">
+          <form method="POST">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit" class="btn-submit">Cadastrar-se</button>
+          </form>
         </div>
       </section>
     </main>
