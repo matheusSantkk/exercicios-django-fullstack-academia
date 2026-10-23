@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Academia Corpo em Movimento</title>
+    <link rel="stylesheet" href="styles/home.css">
+  </head>
+  <body>
+    <h1>🏋️ Academia Corpo em Movimento</h1>
+    <p>Bem-vindo ao nosso sistema! Confira abaixo nossas modalidades ativas:</p>
+
+    <hr />
+
+    <!-- .map() do react -->
+    {% for modalidade in modalidades %}
+    <div class="card">
+      <h3>{{ modalidade.nome }}</h3>
+      <p>{{ modalidade.descricao }}</p>
+    </div>
+    {% empty %}
+    <p>Nenhuma modalidade disponível no momento.</p>
+    {% endfor %}
+  </body>
+</html>
