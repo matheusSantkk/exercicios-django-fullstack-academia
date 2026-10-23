@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Case, IntegerField, Value, When
 from django.core.exceptions import ValidationError
 
 class Modalidade(models.Model):
@@ -29,19 +30,20 @@ class Turma(models.Model):
     horario = models.TimeField()
     instrutor = models.CharField(max_length=100)
     vagas = models.PositiveIntegerField(default=10)
+
     class Meta:
-        ordering = ['dia_semana', 'horario']
+        ordering = [
+            Case(
+                When(dia_semana='SEGUNDA', then=Value(1)),
+                When(dia_semana='TERCA', then=Value(2)),
+                When(dia_semana='QUARTA', then=Value(3)),
+                When(dia_semana='QUINTA', then=Value(4)),
+                When(dia_semana='SEXTA', then=Value(5)),
+                When(dia_semana='SABADO', then=Value(6)),
+                output_field=IntegerField(),
+            ),
+            'horario',
+        ]
 
     def __str__(self):
         return f"{self.modalidade.nome} {self.get_dia_semana_display()} {self.horario.strftime('%H:%M')}"
-    
-class Aluno(models.Model):
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    telefone = models.CharField(max_length=20)
-    data_nascimento = models.DateField()
-    turmas = models.ManyToManyField(Turma, related_name='alunos', blank=True)
-    data_cadastro = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.nome

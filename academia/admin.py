@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Modalidade, Turma, Aluno
+from .models import Modalidade, Turma
 
 @admin.register(Modalidade)
 class ModalidadeAdmin(admin.ModelAdmin):
@@ -13,8 +13,3 @@ class TurmaAdmin(admin.ModelAdmin):
     list_filter = ('modalidade', 'dia_semana')
     search_fields = ('instrutor', )
 
-@admin.register(Aluno)
-class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'email', 'telefone', 'data_cadastro')
-    search_fields = ('nome', 'email')
-    filter_horizontal = ('turmas', )

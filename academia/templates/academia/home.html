@@ -1,21 +1,33 @@
 {% load static %}
+
+<!-- NAO USAR O ATALHO DO PRETTIER, ELE VAI QUEBRAR A LINHA 39 E SEUS RESPECTIVOS LACOS(3 LACOS) -->
+
 <!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Academia Corpo em Movimento</title>
-    <link rel="stylesheet" href="{% static 'academia/styles/home.css' %}?v=2" />
+    <link rel="stylesheet" href="{% static 'academia/styles/home.css' %}?v=3" />
   </head>
   <body>
     <header class="navbar">
       <div class="container">
         <h1>🏋️ Academia Corpo em Movimento</h1>
-        <a href="/admin/" target="_blank" class="btn-admin">Painel Admin</a>
+        <nav class="site-nav" aria-label="Navegação principal">
+          <a href="{% url 'home' %}" aria-current="page">Início</a>
+          <a href="{% url 'turmas' %}">Grade de turmas</a>
+          <a href="/admin/" class="btn-admin">Painel Admin</a>
+        </nav>
       </div>
     </header>
 
     <main class="container">
+      <section class="contact-info" aria-label="Contato da academia">
+        <p><strong>Endereço:</strong> Endereço da academia</p>
+        <p><strong>Telefone:</strong> Telefone da academia</p>
+      </section>
+
       <section class="section">
         <h2>Nossas Modalidades</h2>
 
@@ -31,49 +43,11 @@
         </div>
       </section>
 
-      <section class="section">
-        <h2>Grade de Horários & Turmas</h2>
-
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Modalidade</th>
-                <th>Dia da Semana</th>
-                <th>Horário</th>
-                <th>Instrutor(a)</th>
-                <th>Vagas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for turma in turmas %}
-              <tr>
-                <td><strong>{{ turma.modalidade.nome }}</strong></td>
-                <td>{{ turma.get_dia_semana_display }}</td>
-                <td>{{ turma.horario|time:"H:i" }}</td>
-                <td>{{ turma.instrutor }}</td>
-                <td><span class="badge">{{ turma.vagas }} vagas</span></td>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="5" class="empty-text">
-                  Nenhuma turma cadastrada na grade.
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section class="section">
-        <h2>Faça sua Matrícula</h2>
-        <div class="card form-card">
-          <form method="POST">
-            {% csrf_token %} {{ form.as_p }}
-            <button type="submit" class="btn-submit">Cadastrar-se</button>
-          </form>
-        </div>
-      </section>
+      <p class="schedule-link">
+        <a class="btn-admin" href="{% url 'turmas' %}"
+          >Confira a grade completa de turmas</a
+        >
+      </p>
     </main>
   </body>
 </html>
