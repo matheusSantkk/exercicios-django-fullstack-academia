@@ -1,24 +1,73 @@
+{% load static %}
 <!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Academia Corpo em Movimento</title>
-    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="{% static 'academia/styles/home.css' %}" />
   </head>
   <body>
-    <h1>🏋️ Academia Corpo em Movimento</h1>
-    <p>Bem-vindo ao nosso sistema! Confira abaixo nossas modalidades ativas:</p>
 
-    <hr />
+    <header class="navbar">
+      <div class="container">
+        <h1>🏋️ Academia Corpo em Movimento</h1>
+        <a href="/admin/" target="_blank" class="btn-admin">Painel Admin</a>
+      </div>
+    </header>
 
-    <!-- .map() do react -->
-    {% for modalidade in modalidades %}
-    <div class="card">
-      <h3>{{ modalidade.nome }}</h3>
-      <p>{{ modalidade.descricao }}</p>
-    </div>
-    {% empty %}
-    <p>Nenhuma modalidade disponível no momento.</p>
-    {% endfor %}
+    <main class="container">
+
+      <section class="section">
+        <h2>Nossas Modalidades</h2>
+
+        <div class="grid">
+          {% for modalidade in modalidades %}
+          <div class="card">
+            <h3>{{ modalidade.nome }}</h3>
+            <p>{{ modalidade.descricao|default:"Modalidade sem descrição cadastrada." }}</p>
+          </div>
+          {% empty %}
+          <p class="empty-text">Nenhuma modalidade ativa no momento.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+
+      <section class="section">
+        <h2>Grade de Horários & Turmas</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Modalidade</th>
+                <th>Dia da Semana</th>
+                <th>Horário</th>
+                <th>Instrutor(a)</th>
+                <th>Vagas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for turma in turmas %}
+              <tr>
+                <td><strong>{{ turma.modalidade.nome }}</strong></td>
+                <td>{{ turma.get_dia_semana_display }}</td>
+                <td>{{ turma.horario|time:"H:i" }}</td>
+                <td>{{ turma.instrutor }}</td>
+                <td><span class="badge">{{ turma.vagas }} vagas</span></td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="empty-text">
+                  Nenhuma turma cadastrada na grade.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
