@@ -105,7 +105,8 @@ desenvolvimento: a sua
 3. Execute `python manage.py migrate`.
 4. Crie um usuário administrativo com `python manage.py createsuperuser`.
 5. Inicie o servidor com `python manage.py runserver`.
-6. Acesse `/` para ver as modalidades, `/turmas/` para a grade e `/admin/` para administrar os dados.
+6. Preencha o banco sql com `env\Scripts\python.exe manage.py test academia` (Windows) 
+7. Acesse `/` para ver as modalidades, `/turmas/` para a grade e `/admin/` para administrar os dados.
 
 ## Decisões
 
